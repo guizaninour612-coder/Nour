@@ -1,0 +1,595 @@
+:root {
+  --primary-color: #4b8fde;
+  --light-gray: #f8f9fa;
+  --dark-gray: #343a40;
+  --border-color: #dee2e6;
+  --background-color: #e9ecef;
+  --paper-bg-color: #ffffff;
+  --danger-color: #dc3545;
+  --danger-hover-color: #c82333;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--dark-gray);
+  padding: 2rem;
+}
+
+#root {
+  width: 100%;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.page-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prescription-paper {
+  background-color: var(--paper-bg-color);
+  padding: 2.5rem 3.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
+  min-height: 1122px; /* A4 height approx */
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  min-height: 120px;
+}
+
+.header-left, .header-right {
+  flex: 1;
+}
+
+.header-left h1, .header-right h1 {
+  font-family: 'Playfair Display', serif;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.header-left p, .header-right p {
+  font-size: 0.9rem;
+  color: #495057;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.header-right {
+  text-align: right;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+}
+.header-right h1 {
+    font-size: 2.2rem;
+}
+
+.patient-info {
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+}
+
+.patient-info .form-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+.patient-info .form-group label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--dark-gray);
+    flex-shrink: 0;
+}
+.patient-info .form-group input {
+    flex-grow: 1;
+    border: none;
+    border-bottom: 1px dotted var(--border-color);
+    padding: 0.2rem 0;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+}
+.patient-info .form-group input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--primary-color);
+}
+.patient-info .date-group {
+    width: 40%;
+    margin-left: auto;
+    margin-bottom: 0;
+}
+
+.medication-section {
+  flex-grow: 1;
+}
+
+.autocomplete-container {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch;
+}
+
+.autocomplete-wrapper {
+  flex: 1 1 40%;
+  position: relative;
+}
+
+.autocomplete-input, .dosage-add-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.dosage-add-input {
+    flex: 1 1 45%;
+}
+
+.dosage-add-input:focus, .autocomplete-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(75, 143, 222, 0.25);
+    z-index: 2;
+    position: relative;
+}
+
+.autocomplete-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--paper-bg-color);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.autocomplete-suggestions li {
+  padding: 0.75rem;
+  cursor: pointer;
+}
+
+.autocomplete-suggestions li:hover,
+.autocomplete-suggestions li.active {
+  background-color: var(--light-gray);
+}
+
+.add-med-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex: 0 0 auto;
+}
+
+.add-med-btn:hover {
+  background-color: #3a7dcf;
+}
+
+.medication-list {
+  list-style-type: none;
+  margin-top: 1.5rem;
+  padding-left: 0.5rem;
+}
+
+.medication-list li {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f1f3f5;
+  gap: 1rem;
+}
+.medication-list li:last-child {
+  border-bottom: none;
+}
+.medication-list li.placeholder-item {
+    color: #adb5bd;
+    justify-content: center;
+    padding: 2rem;
+    font-style: italic;
+}
+
+
+.medication-name {
+  font-weight: 500;
+  flex-basis: 30%;
+  font-size: 1.1rem;
+}
+
+.dosage-input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+.dosage-input:focus {
+    outline: none;
+    border-color: #ced4da;
+    background-color: #f8f9fa;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #adb5bd;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0.5rem;
+}
+.remove-btn:hover { color: var(--danger-color); }
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  position: relative;
+  min-height: 100px;
+}
+.vertical-line {
+    position: absolute;
+    left: 0;
+    top: -1.5rem;
+    bottom: 0;
+    width: 2px;
+    background-color: var(--primary-color);
+}
+.footer-content {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #495057;
+    line-height: 1.6;
+    direction: rtl;
+}
+.footer-content p {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+}
+.footer-content strong {
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+.footer-content span {
+    color: var(--primary-color);
+}
+.footer-content svg {
+    width: 0.9em;
+    height: 0.9em;
+}
+
+.edit-info-btn, .download-btn, .dictate-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid var(--primary-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.edit-info-btn {
+    background-color: white;
+    color: var(--primary-color);
+}
+.edit-info-btn:hover {
+    background-color: var(--light-gray);
+}
+.download-btn, .dictate-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+.download-btn:hover, .dictate-btn:hover {
+  background-color: #3a7dcf;
+}
+.download-btn:disabled {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    opacity: 0.7;
+    cursor: wait;
+}
+.dictate-btn {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.dictate-btn:hover {
+    background-color: #218838;
+}
+
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+.modal-content {
+    background-color: white;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 700px;
+}
+.modal-content h2, .modal-content h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+.modal-content h4 {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+}
+.form-columns {
+    display: flex;
+    gap: 2rem;
+}
+.form-column {
+    flex: 1;
+}
+.modal-content .form-group {
+    margin-bottom: 1rem;
+}
+.modal-content .form-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6c757d;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.modal-content .form-group input, .modal-content .form-group textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+.modal-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.modal-actions button {
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-secondary { background-color: #6c757d; color: white; }
+.btn-danger { background-color: var(--danger-color) !important; }
+
+/* Dictation Modal Specific Styles */
+.dictation-modal {
+    max-width: 600px;
+}
+.dictation-instructions {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+.dictation-instructions em {
+    font-style: italic;
+    color: var(--dark-gray);
+}
+.transcript-textarea {
+    width: 100%;
+    min-height: 150px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+.dictation-error {
+    color: var(--danger-color);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.btn-dictate {
+    background-color: #fd7e14;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.btn-dictate.recording {
+    background-color: var(--danger-color);
+}
+.modal-actions .loader {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* PDF Rendering & Print Styles */
+/* These styles apply both when generating the PDF with the button and when printing from the browser */
+@media print {
+  body {
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+  }
+  .page-controls, .autocomplete-container, .remove-btn, .add-med-btn {
+    display: none !important;
+  }
+  .prescription-paper {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    min-height: 0 !important;
+  }
+}
+
+.pdf-render {
+  box-shadow: none !important;
+  border: none !important;
+}
+.pdf-render .add-med-btn, .pdf-render .remove-btn,
+.pdf-render .dosage-add-input, .pdf-render .autocomplete-container {
+  display: none !important;
+}
+
+/* Professional Header */
+.pdf-render header,
+@media print header {
+  border-bottom: 2px solid var(--primary-color) !important;
+}
+
+/* Bolder Patient Info Labels */
+.pdf-render .patient-info .form-group label,
+@media print .patient-info .form-group label {
+  font-weight: 700 !important;
+}
+
+/* Clean up inputs to look like static text */
+.pdf-render .dosage-input, .pdf-render .patient-info .form-group input,
+@media print .dosage-input, @media print .patient-info .form-group input {
+  border: none !important;
+  background: none !important;
+  padding-left: 0 !important;
+  color: var(--dark-gray) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  width: 100%;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+}
+.pdf-render .dosage-input::placeholder,
+@media print .dosage-input::placeholder {
+  color: transparent !important;
+}
+
+/* Structured Medication List */
+.pdf-render .medication-list li,
+@media print .medication-list li {
+  display: block !important;
+  padding: 1rem 0 !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+.pdf-render .medication-list li:first-child,
+@media print .medication-list li:first-child {
+  border-top: none !important;
+}
+.pdf-render .medication-list li.placeholder-item,
+@media print .medication-list li.placeholder-item {
+  display: none !important; /* Hide placeholder text in PDF */
+}
+
+.pdf-render .medication-name,
+@media print .medication-name {
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  display: block !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.pdf-render .dosage-input,
+@media print .dosage-input {
+  font-size: 1rem !important;
+  padding-left: 1.5rem !important;
+}
+
+/* Refined Footer */
+.pdf-render .vertical-line,
+@media print .vertical-line {
+  display: none !important;
+}
+
+.pdf-render footer,
+@media print footer {
+  padding-top: 1.5rem !important;
+  margin-top: auto !important;
+  border-top: 1px solid var(--border-color) !important;
+  justify-content: center !important;
+}
+
+.pdf-render .footer-content,
+@media print .footer-content {
+  text-align: center !important;
+  direction: ltr !important;
+}
+
+.pdf-render .footer-content p,
+@media print .footer-content p {
+  justify-content: center !important;
+}
+
+
+@media (max-width: 768px) {
+    body { padding: 1rem; }
+    .prescription-paper { padding: 1.5rem; min-height: 0; }
+    .header-left h1, .header-right h1 { font-size: 1.5rem; }
+    .header-right h1 { font-size: 1.8rem; }
+    .patient-info, header { flex-direction: column; gap: 1rem; }
+    .patient-info .date-group { width: 100%; margin-left: 0; }
+    .form-columns { flex-direction: column; }
+    footer { flex-direction: column; align-items: flex-end; text-align: right; }
+}
